@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Book::class)->constrained()->onDelete('cascade');
+            $table->timestamp('purchased_at');
             $table->timestamps();
         });
     }
