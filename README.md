@@ -27,8 +27,8 @@
 - Automātiski tiek atjaunots grāmatu saraksts
 
 ### API Endpoints
-- `/api/top10` – atgriež šī mēneša **top 10 populārākās grāmatas**
-- Atgriež JSON ar grāmatas nosaukumu, autoru sarakstu un pirkumu skaitu šajā mēnesī
+- `/api/books/top10` – atgriež šī mēneša **top 10 populārākās grāmatas**
+- Atgriež JSON ar grāmatu nosaukumiem, autoru sarakstu un pirkumu skaitu šajā mēnesī
 
 ---
 
