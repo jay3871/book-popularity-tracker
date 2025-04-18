@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+// Novirza sākuma lapu uz grāmatu sarakstu
+Route::redirect('/', '/books');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Grāmatu saraksts ar meklēšanu, kārtošanu, popularitāti u.c.
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+// Poga "Pirkt" – grāmatas pirkšanas simulācija
+Route::post('/books/{book}/purchase', [BookController::class, 'purchase'])->name('books.purchase');
