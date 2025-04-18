@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { router, Head } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import debounce from 'lodash/debounce' // Aiztures funkcija, lai nesūtītu pieprasījumus katru rakstīšanas reizi
