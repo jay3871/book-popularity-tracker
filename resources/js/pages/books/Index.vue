@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { router, Head } from '@inertiajs/vue3'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import debounce from 'lodash/debounce' // Aiztures funkcija, lai nesūtītu pieprasījumus katru rakstīšanas reizi
 import { useToast, POSITION } from 'vue-toastification';
 
@@ -41,12 +41,56 @@ const purchaseBook = (id) => {
     }
   })
 }
+
+// Tēmas pārslēgšana
+const toggleTheme = () => {
+  // Apmainam pašreizējo tēmu uz pretējo
+  isDark.value = !isDark.value
+
+  const html = document.documentElement
+
+  if (isDark.value) {
+    html.classList.add('dark')
+    localStorage.setItem('theme', 'dark')
+  } else {
+    html.classList.remove('dark')
+    localStorage.setItem('theme', 'light')
+  }
+}
+
+// Reaktīvs mainīgais, kas norāda vai ir ieslēgts tumšais režīms jeb tēma
+const isDark = ref(false)
+
+onMounted(() => {
+  // Paņemam lokāli saglabāto theme vērtību
+  const saved = localStorage.getItem('theme')
+  const html = document.documentElement
+
+  // Ja ir 'dark', tad pieliekam klasi un attiecīgi uzstādam isDark kā true un otrādi
+  if (saved === 'dark') {
+    isDark.value = true
+    html.classList.add('dark')
+  } else {
+    isDark.value = false
+    html.classList.remove('dark')
+  }
+})
 </script>
 
 <template>
   <Head title="Grāmatu saraksts" />
 
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- Tēmas pārslēgšana -->
+    <div class="flex justify-end mb-4">
+      <button
+        @click="toggleTheme"
+        class="text-sm px-3 py-2 border rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer"
+      >
+        {{ isDark ? 'Gaišais režīms' : 'Tumšais režīms' }}
+      </button>
+    </div>
+
     <h1 class="text-2xl sm:text-3xl font-bold mb-6 text-center sm:text-left">Grāmatu saraksts</h1>
 
     <!-- Filtrēšanas un meklēšanas lauki -->
@@ -58,7 +102,7 @@ const purchaseBook = (id) => {
         class="border p-2 rounded w-full sm:flex-1"
       />
 
-      <select v-model="sort" class="border p-2 rounded w-full sm:w-auto">
+      <select v-model="sort" class="border p-2 rounded w-full sm:w-auto bg-white dark:bg-black">
         <option value="" selected>— Bez kārtošanas —</option>
         <option value="monthly">Populārākās šomēnes</option>
       </select>
